@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1aec7da28ec67a9439cee5cc52e88a73
+guid: cd5546d6ac63a4e4fb9adc43e2fd3719
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -94,7 +94,7 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: ' Pelvis'
+    rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
