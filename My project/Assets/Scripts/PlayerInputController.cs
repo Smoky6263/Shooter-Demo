@@ -35,7 +35,7 @@ public class PlayerInputController : MonoBehaviour
     private void ReadMove()
     {
         Vector2 input = playerInput.Character.Movement.ReadValue<Vector2>();
-        controllable.Move(input);
+        controllable.Move(input);   
     }
     private void ReadJump()
     {

@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerAnimatorController : MonoBehaviour
@@ -7,7 +6,6 @@ public class PlayerAnimatorController : MonoBehaviour
 
 
     private bool isIdle, isRunning;
-
     private string playerIdle, playerRunning;
     private void Awake()
     {
@@ -18,12 +16,7 @@ public class PlayerAnimatorController : MonoBehaviour
 
         playerIdle = "isIdle";
         playerRunning = "isRunning";
-    }
 
-    public void IsRuning(bool state)
-    {
-        isRunning = state;
-        SetState(playerRunning, isRunning);
     }
 
     public void IsIdle(bool state)
@@ -32,8 +25,15 @@ public class PlayerAnimatorController : MonoBehaviour
         SetState(playerIdle, isIdle);
     }
 
+    public void IsRuning(bool state)
+    {
+        isRunning = state;
+        SetState(playerRunning, isRunning);
+    }
+
     private void SetState(string state, bool newState)
     {
+        
         animator.SetBool(state, newState);
     }
 
