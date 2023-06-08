@@ -35,6 +35,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""EquipWeapon"",
+                    ""type"": ""Value"",
+                    ""id"": ""e50c5830-a8b1-49bf-830c-250b5de87e5f"",
+                    ""expectedControlType"": ""Integer"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -147,6 +156,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e9bde52d-84f7-49b7-990f-193366ff2f9f"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboarMouse"",
+                    ""action"": ""EquipWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -184,6 +204,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         // Character
         m_Character = asset.FindActionMap("Character", throwIfNotFound: true);
         m_Character_Movement = m_Character.FindAction("Movement", throwIfNotFound: true);
+        m_Character_EquipWeapon = m_Character.FindAction("EquipWeapon", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -246,11 +267,13 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Character;
     private List<ICharacterActions> m_CharacterActionsCallbackInterfaces = new List<ICharacterActions>();
     private readonly InputAction m_Character_Movement;
+    private readonly InputAction m_Character_EquipWeapon;
     public struct CharacterActions
     {
         private @PlayerInput m_Wrapper;
         public CharacterActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Character_Movement;
+        public InputAction @EquipWeapon => m_Wrapper.m_Character_EquipWeapon;
         public InputActionMap Get() { return m_Wrapper.m_Character; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -263,6 +286,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
+            @EquipWeapon.started += instance.OnEquipWeapon;
+            @EquipWeapon.performed += instance.OnEquipWeapon;
+            @EquipWeapon.canceled += instance.OnEquipWeapon;
         }
 
         private void UnregisterCallbacks(ICharacterActions instance)
@@ -270,6 +296,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
+            @EquipWeapon.started -= instance.OnEquipWeapon;
+            @EquipWeapon.performed -= instance.OnEquipWeapon;
+            @EquipWeapon.canceled -= instance.OnEquipWeapon;
         }
 
         public void RemoveCallbacks(ICharacterActions instance)
@@ -308,5 +337,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     public interface ICharacterActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnEquipWeapon(InputAction.CallbackContext context);
     }
 }

@@ -26,7 +26,7 @@ public class PlayerGroundedState : PlayerBaseState
     }
     public override void CheckSwitchStates()
     {
-        if(_ctx.PlayerInput.magnitude >= 0.1f)
+        if(_ctx.PlayerMoveInput.magnitude >= 0.1f)
         {
             SwitchState(_factory.Walk());
         }

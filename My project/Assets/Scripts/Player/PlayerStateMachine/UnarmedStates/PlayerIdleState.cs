@@ -25,9 +25,18 @@ public class PlayerIdleState : PlayerBaseState
     }
     public override void CheckSwitchStates()
     {
-        if (_ctx.PlayerInput.magnitude >= 0.1f)
+        if (_ctx.PlayerMoveInput.magnitude >= 0.1f)
         {
-            SwitchState(_factory.Walk());
+            SwitchState(_factory.Run());
+        }
+
+        if (_ctx.EquipWeaponInput)
+        {
+            _ctx.PlayerAnimator.IsEquiped(true);
+        }
+        else
+        {
+            _ctx.PlayerAnimator.IsEquiped(false);
         }
     }
 

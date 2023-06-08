@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour, IControllable
+public class Player : MonoBehaviour
 {
     private CharacterController characterController;
     private PlayerAnimatorController playerAnimator;

@@ -1,18 +1,23 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInputController : MonoBehaviour
 {
-    private IControllable controllable;
-    private PlayerInput playerInput;
+    private IControllable _controllable;
+    private PlayerInput _playerInput;
+
+    private bool _equipWeaponInput =false;
+
     private void Awake()
     {
-        controllable = GetComponent<IControllable>();
+        _controllable = GetComponent<IControllable>();
 
-        playerInput = new PlayerInput();
-        playerInput.Enable();
+        _playerInput = new PlayerInput();
+        _playerInput.Enable();
 
-        if(controllable == null)
+        if(_controllable == null)
         {
             throw new Exception("There is no IControllable component on the object: " + gameObject.name);
         }
@@ -20,12 +25,12 @@ public class PlayerInputController : MonoBehaviour
 
     private void OnEnable()
     {
-        
+        _playerInput.Character.EquipWeapon.performed += ReadWeaponEquip;
     }
 
     private void OnDisable()
     {
-
+        _playerInput.Character.EquipWeapon.performed -= ReadWeaponEquip;
     }
     private void Update()
     {
@@ -34,11 +39,17 @@ public class PlayerInputController : MonoBehaviour
 
     private void ReadMove()
     {
-        Vector2 input = playerInput.Character.Movement.ReadValue<Vector2>();
-        controllable.Move(input);   
+        Vector2 input = _playerInput.Character.Movement.ReadValue<Vector2>();
+        _controllable.Move(input);   
     }
     private void ReadJump()
     {
 
+    }
+
+    private void ReadWeaponEquip(InputAction.CallbackContext obj)
+    {
+        _equipWeaponInput = !_equipWeaponInput;
+        _controllable.EquipWeapon(_equipWeaponInput);
     }
 }
