@@ -15,13 +15,22 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "EquipWeapon",
+                    "name": "EquipWeaponPerform",
                     "type": "Value",
                     "id": "e50c5830-a8b1-49bf-830c-250b5de87e5f",
-                    "expectedControlType": "Integer",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "OnAimPerform",
+                    "type": "Button",
+                    "id": "395e919c-465d-4f70-807a-7108b281e0fb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -142,7 +151,40 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboarMouse",
-                    "action": "EquipWeapon",
+                    "action": "EquipWeaponPerform",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "14469d96-e475-4a0d-a5c9-337d112f6fa9",
+                    "path": "<XInputController>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "GamePad",
+                    "action": "EquipWeaponPerform",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eb8ca2cf-e42a-4b2e-bcdc-f7dc41f617e6",
+                    "path": "<XInputController>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "GamePad",
+                    "action": "OnAimPerform",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b8860970-56df-44cc-ad4e-e54576265eed",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboarMouse",
+                    "action": "OnAimPerform",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

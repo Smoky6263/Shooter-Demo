@@ -1,4 +1,6 @@
 
+using TMPro.EditorUtilities;
+
 public class PlayerStateFactory
 {
     PlayerStateMachine _context;
@@ -27,6 +29,19 @@ public class PlayerStateFactory
     public PlayerBaseState Grounded() 
     {
         return new PlayerGroundedState(_context, this);
+    }
+
+    public PlayerBaseState ArmedIdle() 
+    {
+        return new ArmedIdleState(_context, this);
+    }
+    public PlayerBaseState ArmedRun()
+    {
+        return new ArmedRunState(_context, this);
+    }
+    public PlayerBaseState ShotgunAimState() 
+    {
+        return new AimState(_context, this);
     }
 
 }

@@ -8,13 +8,14 @@ public class PlayerRunState : PlayerBaseState
     }
     public override void EnterState()
     {
+        _ctx.Invoke("TakeOutWeapon", _ctx.TimeToGetWeapon);
+        _ctx.PlayerAnimator.IsEquiped(false);
         _ctx.PlayerAnimator.IsRuning(true);
-        _turnSmoothVelocity = _ctx.TurnSmoothVelocity;
     }
     public override void UpdateState()
     {
-        CheckSwitchStates();
         OnMove();
+        CheckSwitchStates();
     }
 
     public override void ExitState()
@@ -28,19 +29,9 @@ public class PlayerRunState : PlayerBaseState
     }
     public override void CheckSwitchStates()
     {
-        if (_ctx.PlayerMoveInput.magnitude <= 0.1f)
-        {
-            SwitchState(_factory.Idle());
-        }
-
-        if (_ctx.EquipWeaponInput)
-        {
-            _ctx.PlayerAnimator.IsEquiped(true);
-        }
-        else 
-        {
-            _ctx.PlayerAnimator.IsEquiped(false);
-        }
+        SwitchToIdle();
+        SwitchToArmedIdle();
+        SwitchToArmedRun();
     }
 
     private void OnMove()
@@ -54,8 +45,31 @@ public class PlayerRunState : PlayerBaseState
 
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             _ctx.CharacterController.Move(moveDirection.normalized * _ctx.RunSpeed * Time.deltaTime);
-            _ctx.PlayerAnimator.IsRuning(true);
-            _ctx.PlayerAnimator.IsIdle(false);
         }
     }
+    
+    //CheckSwitchStates Methods
+    #region
+    private void SwitchToIdle()
+    {
+        if (_ctx.PlayerMoveInput.magnitude <= 0.1f && !_ctx.EquipWeaponInputPerformed)
+        {
+            SwitchState(_factory.Idle());
+        }
+    }
+    private void SwitchToArmedIdle()
+    {
+        if (_ctx.PlayerMoveInput.magnitude <= 0.1f && _ctx.EquipWeaponInputPerformed)
+        {
+            SwitchState(_factory.ArmedIdle());
+        }
+    }
+    private void SwitchToArmedRun()
+    {
+        if (_ctx.PlayerMoveInput.magnitude >= 0.1f && _ctx.EquipWeaponInputPerformed)
+        {
+            SwitchState(_factory.ArmedRun());
+        }
+    }
+    #endregion
 }

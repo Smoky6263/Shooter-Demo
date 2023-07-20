@@ -8,7 +8,8 @@ public class PlayerInputController : MonoBehaviour
     private IControllable _controllable;
     private PlayerInput _playerInput;
 
-    private bool _equipWeaponInput =false;
+    private bool _equipWeaponPerform =false;
+    private bool _onAimPerform = false;
 
     private void Awake()
     {
@@ -25,12 +26,14 @@ public class PlayerInputController : MonoBehaviour
 
     private void OnEnable()
     {
-        _playerInput.Character.EquipWeapon.performed += ReadWeaponEquip;
+        _playerInput.Character.EquipWeaponPerform.performed += ReadWeaponEquip;
+        _playerInput.Character.OnAimPerform.performed += ReadOnAimPerform;
     }
 
     private void OnDisable()
     {
-        _playerInput.Character.EquipWeapon.performed -= ReadWeaponEquip;
+        _playerInput.Character.EquipWeaponPerform.performed -= ReadWeaponEquip;
+        _playerInput.Character.OnAimPerform.performed -= ReadOnAimPerform;
     }
     private void Update()
     {
@@ -49,7 +52,12 @@ public class PlayerInputController : MonoBehaviour
 
     private void ReadWeaponEquip(InputAction.CallbackContext obj)
     {
-        _equipWeaponInput = !_equipWeaponInput;
-        _controllable.EquipWeapon(_equipWeaponInput);
+        _equipWeaponPerform = !_equipWeaponPerform;
+        _controllable.EquipWeaponPerformed(_equipWeaponPerform);
+    }
+    private void ReadOnAimPerform(InputAction.CallbackContext obj) 
+    {
+        _onAimPerform = !_onAimPerform;
+        _controllable.OnAimPerformed(_onAimPerform);
     }
 }

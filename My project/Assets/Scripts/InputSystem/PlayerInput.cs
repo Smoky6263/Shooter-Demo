@@ -37,13 +37,22 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""EquipWeapon"",
+                    ""name"": ""EquipWeaponPerform"",
                     ""type"": ""Value"",
                     ""id"": ""e50c5830-a8b1-49bf-830c-250b5de87e5f"",
-                    ""expectedControlType"": ""Integer"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""OnAimPerform"",
+                    ""type"": ""Button"",
+                    ""id"": ""395e919c-465d-4f70-807a-7108b281e0fb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -164,7 +173,40 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboarMouse"",
-                    ""action"": ""EquipWeapon"",
+                    ""action"": ""EquipWeaponPerform"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""14469d96-e475-4a0d-a5c9-337d112f6fa9"",
+                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""GamePad"",
+                    ""action"": ""EquipWeaponPerform"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eb8ca2cf-e42a-4b2e-bcdc-f7dc41f617e6"",
+                    ""path"": ""<XInputController>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""GamePad"",
+                    ""action"": ""OnAimPerform"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b8860970-56df-44cc-ad4e-e54576265eed"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboarMouse"",
+                    ""action"": ""OnAimPerform"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -204,7 +246,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         // Character
         m_Character = asset.FindActionMap("Character", throwIfNotFound: true);
         m_Character_Movement = m_Character.FindAction("Movement", throwIfNotFound: true);
-        m_Character_EquipWeapon = m_Character.FindAction("EquipWeapon", throwIfNotFound: true);
+        m_Character_EquipWeaponPerform = m_Character.FindAction("EquipWeaponPerform", throwIfNotFound: true);
+        m_Character_OnAimPerform = m_Character.FindAction("OnAimPerform", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -267,13 +310,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Character;
     private List<ICharacterActions> m_CharacterActionsCallbackInterfaces = new List<ICharacterActions>();
     private readonly InputAction m_Character_Movement;
-    private readonly InputAction m_Character_EquipWeapon;
+    private readonly InputAction m_Character_EquipWeaponPerform;
+    private readonly InputAction m_Character_OnAimPerform;
     public struct CharacterActions
     {
         private @PlayerInput m_Wrapper;
         public CharacterActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Character_Movement;
-        public InputAction @EquipWeapon => m_Wrapper.m_Character_EquipWeapon;
+        public InputAction @EquipWeaponPerform => m_Wrapper.m_Character_EquipWeaponPerform;
+        public InputAction @OnAimPerform => m_Wrapper.m_Character_OnAimPerform;
         public InputActionMap Get() { return m_Wrapper.m_Character; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -286,9 +331,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
-            @EquipWeapon.started += instance.OnEquipWeapon;
-            @EquipWeapon.performed += instance.OnEquipWeapon;
-            @EquipWeapon.canceled += instance.OnEquipWeapon;
+            @EquipWeaponPerform.started += instance.OnEquipWeaponPerform;
+            @EquipWeaponPerform.performed += instance.OnEquipWeaponPerform;
+            @EquipWeaponPerform.canceled += instance.OnEquipWeaponPerform;
+            @OnAimPerform.started += instance.OnOnAimPerform;
+            @OnAimPerform.performed += instance.OnOnAimPerform;
+            @OnAimPerform.canceled += instance.OnOnAimPerform;
         }
 
         private void UnregisterCallbacks(ICharacterActions instance)
@@ -296,9 +344,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
-            @EquipWeapon.started -= instance.OnEquipWeapon;
-            @EquipWeapon.performed -= instance.OnEquipWeapon;
-            @EquipWeapon.canceled -= instance.OnEquipWeapon;
+            @EquipWeaponPerform.started -= instance.OnEquipWeaponPerform;
+            @EquipWeaponPerform.performed -= instance.OnEquipWeaponPerform;
+            @EquipWeaponPerform.canceled -= instance.OnEquipWeaponPerform;
+            @OnAimPerform.started -= instance.OnOnAimPerform;
+            @OnAimPerform.performed -= instance.OnOnAimPerform;
+            @OnAimPerform.canceled -= instance.OnOnAimPerform;
         }
 
         public void RemoveCallbacks(ICharacterActions instance)
@@ -337,6 +388,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     public interface ICharacterActions
     {
         void OnMovement(InputAction.CallbackContext context);
-        void OnEquipWeapon(InputAction.CallbackContext context);
+        void OnEquipWeaponPerform(InputAction.CallbackContext context);
+        void OnOnAimPerform(InputAction.CallbackContext context);
     }
 }
